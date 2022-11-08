@@ -1,0 +1,11 @@
+.about__heading {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  max-width: 100%;
+  border-bottom: 1px solid black;
+  margin: 112px 70px 0 70px;
+  padding-bottom: 21px;
+}
