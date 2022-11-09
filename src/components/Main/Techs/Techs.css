@@ -87,6 +87,13 @@
   }
 }
 
+@media screen and (max-width: 650px) {
+  .techs__list {
+    grid-template-columns: repeat(4, 84px);
+    grid-template-rows: repeat(2, 60px);
+  }
+}
+
 @media screen and (max-width: 320px) {
   .techs {
     padding-top: 91px;
