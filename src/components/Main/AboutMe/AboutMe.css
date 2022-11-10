@@ -89,7 +89,7 @@
   }
   .about-me__photo {
     margin: 60px auto 0;
-    max-width: 292px;
+    max-width: 70%;
     max-height: 352px;
     width: 300px;
     height: 400px;
@@ -125,5 +125,9 @@
 
   .about-me__github {
     margin: 62px 0 0 14px;
+  }
+
+  .about-me__photo {
+    max-width: 320px;
   }
 }

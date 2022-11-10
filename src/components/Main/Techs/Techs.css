@@ -94,10 +94,35 @@
   }
 }
 
+@media screen and (max-width: 500px) {
+  .techs {
+    height: 530px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .techs {
+    padding: 91px 0 0;
+    height: 475px;
+    height: 651px;
+    background-color: white;
+  }
+
+  .techs__technologies {
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  .techs__list {
+    margin: 50px 50px 0;
+    grid-template-columns: repeat(2, 84px);
+    grid-template-rows: repeat(4, 57px);
+  }
+}
+
 @media screen and (max-width: 320px) {
   .techs {
-    padding-top: 91px;
-    height: 475px;
+    padding: 91px 0 0;
     height: 651px;
     background-color: white;
   }
@@ -120,12 +145,6 @@
     line-height: 16px;
     width: 85%;
     margin-top: 25px;
-  }
-
-  .techs__list {
-    margin: 50px 50px 0;
-    grid-template-columns: repeat(2, 84px);
-    grid-template-rows: repeat(4, 57px);
   }
 
   .techs__tech {

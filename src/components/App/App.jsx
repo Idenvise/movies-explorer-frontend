@@ -5,13 +5,22 @@ import '../../vendor/fonts/Inter/inter.css'
 import Main from '../Main/Main'
 import Header from '../Header/Header';
 import Footer from './Footer/Footer';
+import Movies from '../movies/Movies';
 
 function App() {
 
   return (
     <div className='page'>
       <Header />
-      <Main />
+      <Switch>
+        <Route exact path='/'>
+          <Main />
+        </Route>
+        <Route path='/movies'>
+          <Movies />
+        </Route>
+      </Switch>
+
       <Footer />
     </div>
   );

@@ -81,6 +81,12 @@
   }
 }
 
+@media screen and (max-width: 500px) {
+  .promo {
+    height: 950px;
+  }
+}
+
 @media screen and (max-width: 320px) {
   .promo {
     height: 654px;

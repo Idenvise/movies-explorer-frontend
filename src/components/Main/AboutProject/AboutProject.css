@@ -130,6 +130,10 @@
 }
 
 @media screen and (max-width: 320px) {
+  .about-project {
+    height: 495px;
+  }
+
   .about-project__heading {
     font-size: 18px;
     line-height: 22px;
