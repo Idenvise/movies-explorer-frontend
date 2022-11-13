@@ -1,5 +1,6 @@
 import './Portfolio.css'
 import arrow from '../../../images/portfolio__arrow.svg'
+import { Link } from 'react-router-dom'
 
 function Portfolio() {
 
@@ -21,9 +22,9 @@ function Portfolio() {
         </li>
         <li className='portfolio__portfolio'>
           Одностраничное приложение
-          <a className='portfolio__portfolio__arrow' href='https://github.com/Idenvise/react-mesto-auth'>
+          <Link className='portfolio__portfolio__arrow' to='/movies'>
             <img className='portfolio__portfolio__arrow-image' src={arrow} alt='Ссылка' />
-          </a>
+          </Link>
         </li>
       </ul>
   </section>

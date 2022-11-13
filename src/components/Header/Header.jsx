@@ -29,9 +29,9 @@ function Header() {
               </div>
             </Route>
             <Route path='/movies'>
-              <Link className='header__films'>Фильмы</Link>
-              <Link className='header__saved-films'>Сохранённые Фильмы</Link>
-              <Link className='header__account'>Аккаунт<img className='header__account__image' src={userImage} alt='Значёк профия' /></Link>
+              <Link className='header__films' to='/films'>Фильмы</Link>
+              <Link className='header__saved-films' to='/saved-films'>Сохранённые Фильмы</Link>
+              <Link className='header__account' to='/account'>Аккаунт<img className='header__account__image' src={userImage} alt='Значёк профия' /></Link>
             </Route>
 
           </Switch>
