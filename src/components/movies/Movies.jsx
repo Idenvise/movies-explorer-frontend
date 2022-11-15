@@ -1,9 +1,9 @@
-
+import SearchForm from './SearchForm/SearchFrom'
 
 function Movies() {
 
   return(
-    <div></div>
+    <SearchForm />
   )
 }
 
