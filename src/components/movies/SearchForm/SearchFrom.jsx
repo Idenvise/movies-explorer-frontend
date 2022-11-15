@@ -14,6 +14,7 @@ function SearchForm() {
       <label className='movies-checkbox-label'>
         <input className='movies-checkbox' type='checkbox' />
       </label>
+      <h2 className='movies__short'>Короткометражки</h2>
     </section>
   )
 }
