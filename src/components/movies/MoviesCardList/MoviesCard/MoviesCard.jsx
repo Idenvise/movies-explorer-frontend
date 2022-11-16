@@ -7,7 +7,7 @@ function MoviesCard() {
     isLiked ? setLike(false) : setLike(true);
   }
   return(
-    <article className='movies-card'>
+    <article className='movies__card'>
       <img className='movies__pic' src={cardPic} alt='Картинка фильма' />
       <div className='movies__wrapper'>
         <h2 className='movies__title'>33 слова о дизайне</h2>

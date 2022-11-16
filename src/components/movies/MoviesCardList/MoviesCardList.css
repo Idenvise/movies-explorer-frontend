@@ -5,7 +5,7 @@
 .card-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  row-gap: 50px;
+  row-gap: 35px;
   column-gap: 26px;
   grid-auto-flow: row;
   padding-top: 80px;
@@ -18,7 +18,7 @@
   border: none;
   background-color: #f9f9f9;
   border-radius: 6px;
-  margin-top: 77px;
+  margin-top: 62px;
   font-weight: 500;
   font-size: 12px;
   line-height: 15px;
@@ -26,4 +26,18 @@
   justify-content: center;
   height: 36px;
   cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .cards {
+    margin: 0 30px 145px;
+  }
+  .card-list {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 30px;
+  }
+  .card-list__more {
+    margin-top: 82px;
+  }
 }

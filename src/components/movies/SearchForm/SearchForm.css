@@ -90,3 +90,23 @@
   left: 22px;
   }
 
+@media screen and (width: 768px) {
+  .search {
+    margin: 94px 30px 110px;
+  }
+  .movies__short {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    margin-right: 20px;
+  }
+  .movies-checkbox__label {
+    margin-left: 20px;
+  }
+  .movies-form{
+    padding-right: 20px;
+  }
+  .movies-form__submit{
+    width: 115px;
+  }
+}
