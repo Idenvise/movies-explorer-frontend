@@ -52,7 +52,7 @@
   color: #A0A0A0;
 }
 
-.movies-checkbox-label {
+.movies-checkbox__label {
   display: flex;
   margin-left: 30px;
 }

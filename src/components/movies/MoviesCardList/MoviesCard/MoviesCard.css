@@ -12,19 +12,20 @@
   font-weight: 500;
   font-size: 13px;
   line-height: 16px;
+  margin: 0;
 }
 
 .movies__wrapper {
   display: flex;
   justify-content: space-between;
-  margin: 0 24px 0 16px;
+  margin: 15px 24px 0 16px;
 }
 
 .movies__duration {
   font-weight: 400;
   font-size: 11px;
   line-height: 13px;
-  margin: 16px 0 0 17px;
+  margin: 17px 0 0 17px;
   color: #A0A0A0;
 }
 

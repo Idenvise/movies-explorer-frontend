@@ -1,10 +1,29 @@
+.cards {
+  margin: 0 70px 145px;
+}
+
 .card-list {
   display: grid;
-  margin: 0 70px;
   grid-template-columns: repeat(3, 1fr);
-  row-gap: 24px;
-  column-gap: 37px;
+  row-gap: 50px;
+  column-gap: 26px;
   grid-auto-flow: row;
   padding-top: 80px;
   border-top: 1px solid #E8E8E8;
+}
+
+.card-list__more {
+  display: flex;
+  width: 100%;
+  border: none;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  margin-top: 77px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  cursor: pointer;
 }

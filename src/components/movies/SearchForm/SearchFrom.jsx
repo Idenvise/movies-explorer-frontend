@@ -11,7 +11,7 @@ function SearchForm() {
         <input className='movies-form__input' placeholder='Фильм'/>
         <button className='movies-form__submit' type='submit'><img className='movies-form__search-icon_white' src={searchIconWhite} alt='Поиск'/></button>
       </form>
-      <label className='movies-checkbox-label'>
+      <label className='movies-checkbox__label'>
         <input className='movies-checkbox' type='checkbox' />
       </label>
       <h2 className='movies__short'>Короткометражки</h2>
