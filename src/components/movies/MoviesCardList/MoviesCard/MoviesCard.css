@@ -39,6 +39,21 @@
   transition: 0.3s ease-in-out;
 }
 
+.movies__delete {
+  background-image: url('../../../../images/cross.svg');
+  background-color: transparent;
+  border: none;
+  align-self: center;
+  background-repeat: no-repeat;
+  width: 8px;
+  height: 8px;
+  display: none;
+}
+
+.movies__delete_visible {
+  display: block;
+}
+
 .movies__like_active {
   background-image: url('../../../../images/like_active.svg');
 }
@@ -47,17 +62,13 @@
   .movies__wrapper {
     margin: 9px 24px 0 15px;
   }
-  .movies__card:nth-of-type(8) {
-    display: none;
-  }
-  .movies__card:nth-of-type(9) {
-    display: none;
-  }
-  .movies__card:nth-of-type(10) {
-    display: none;
-  }
-  .movies__card:nth-of-type(11) {
-    display: none;
+  .movies__duration {
+    margin: 13px 0 14px 15px;
   }
 }
 
+@media screen and (max-width: 320px) {
+  .movies__wrapper {
+    margin: 12px 18px 0 15px;
+  }
+}

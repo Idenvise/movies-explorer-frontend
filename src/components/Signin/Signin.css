@@ -1,0 +1,81 @@
+.signin {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  max-width: 396px;
+  width: 100%;
+  margin: 12px 0 0 0;
+}
+
+.signin__greeting {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  margin-bottom: 0;
+}
+
+.signin__form {
+  margin: 18px 0 0;
+}
+
+.signin__form-name {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  margin: 21px 0 0;
+  color: #A0A0A0;
+}
+
+.input {
+  margin-top: 10px;
+}
+
+.signin__submit {
+  border: none;
+  background-color: black;
+  color: white;
+  width: 100%;
+  height: 45px;
+  border-radius: 3px;
+  margin-top: 180px;
+}
+
+.signin__notreg {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #A0A0A0;
+  text-align: center;
+}
+
+.signin__to-signup {
+  text-decoration: none;
+  color: black;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  margin-left: 6px;
+}
+
+@media screen and (max-width: 450px) {
+  .signin__greeting {
+    margin: 35px auto 0;
+  }
+  .signin {
+    max-width: 260px;
+  }
+  .signin__form {
+    margin-top: 59px;
+  }
+  .signin__submit {
+    margin-top: 265px;
+  }
+  .signin__notreg {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .signin__to-signup {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

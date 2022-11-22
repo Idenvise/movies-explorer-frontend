@@ -18,7 +18,7 @@ function AboutMe() {
               На данный момент работаю в компании
               «Таврида Электрик».
           </article>
-          <a className='about-me__github' href='https://github.com/Idenvise'>Github</a>
+          <a className='about-me__github' rel='noreferrer' target='_blank' href='https://github.com/Idenvise'>Github</a>
         </div>
         <img className='about-me__photo' src={photo} alt='Моё фото'/>
       </div>

@@ -34,6 +34,10 @@
 }
 
 @media screen and (max-width: 768px) {
+  .portfolio {
+    margin-bottom: 134px;
+  }
+
   .portfolio__portfolio-subheading {
     margin: 90px 0 0 50px;
   }
