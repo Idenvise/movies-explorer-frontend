@@ -52,7 +52,7 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 450px) {
   .portfolio {
     margin-bottom: 112px;
   }
