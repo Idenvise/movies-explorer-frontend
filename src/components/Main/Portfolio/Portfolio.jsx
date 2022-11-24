@@ -10,13 +10,13 @@ function Portfolio() {
       <ul className='portfolio__portfolio_list'>
         <li className='portfolio__portfolio'>
           Статичный сайт
-          <a className='portfolio__portfolio__arrow' href='https://idenvise.github.io/how-to-learn/'>
+          <a className='portfolio__portfolio__arrow' rel='noreferrer' target='_blank' href='https://idenvise.github.io/how-to-learn/'>
             <img className='portfolio__portfolio__arrow-image' src={arrow} alt='Ссылка' />
           </a>
         </li>
         <li className='portfolio__portfolio'>
           Адаптивный сайт
-          <a className='portfolio__portfolio__arrow' href='https://idenvise.github.io/russian-travel/'>
+          <a className='portfolio__portfolio__arrow' rel='noreferrer' target='_blank' href='https://idenvise.github.io/russian-travel/'>
             <img className='portfolio__portfolio__arrow-image' src={arrow} alt='Ссылка' />
           </a>
         </li>

@@ -1,3 +1,7 @@
+.portfolio {
+  margin-bottom: 174px;
+}
+
 .portfolio__portfolio-subheading {
   font-weight: 400;
   font-size: 18px;
@@ -30,6 +34,10 @@
 }
 
 @media screen and (max-width: 768px) {
+  .portfolio {
+    margin-bottom: 134px;
+  }
+
   .portfolio__portfolio-subheading {
     margin: 90px 0 0 50px;
   }
@@ -44,7 +52,10 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 450px) {
+  .portfolio {
+    margin-bottom: 112px;
+  }
   .portfolio__portfolio-subheading {
     margin: 70px 14px 0;
     font-size: 14px;

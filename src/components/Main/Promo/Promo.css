@@ -87,14 +87,14 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 450px) {
   .promo {
     height: 654px;
   }
   .promo__image {
     width: 210px;
     height: 206px;
-    margin-top: 90px;
+    margin-top: 85px;
   }
 
   .promo__heading {

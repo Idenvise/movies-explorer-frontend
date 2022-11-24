@@ -1,0 +1,74 @@
+.movies__card {
+  border-radius: 6px;
+  background-color: #FDFDFD;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+}
+
+.movies__pic {
+  width: 100%;
+}
+
+.movies__title {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  margin: 0;
+}
+
+.movies__wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 24px 0 14px;
+}
+
+.movies__duration {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  margin: 17px 0 14px 14px;
+  color: #A0A0A0;
+}
+
+.movies__like {
+  background-image: url('../../../../images/like.svg');
+  background-color: transparent;
+  border: none;
+  width: 14px;
+  height: 12px;
+  align-self: center;
+  transition: 0.3s ease-in-out;
+}
+
+.movies__delete {
+  background-image: url('../../../../images/cross.svg');
+  background-color: transparent;
+  border: none;
+  align-self: center;
+  background-repeat: no-repeat;
+  width: 8px;
+  height: 8px;
+  display: none;
+}
+
+.movies__delete_visible {
+  display: block;
+}
+
+.movies__like_active {
+  background-image: url('../../../../images/like_active.svg');
+}
+
+@media screen and (max-width: 768px) {
+  .movies__wrapper {
+    margin: 9px 24px 0 15px;
+  }
+  .movies__duration {
+    margin: 13px 0 14px 15px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .movies__wrapper {
+    margin: 12px 18px 0 15px;
+  }
+}

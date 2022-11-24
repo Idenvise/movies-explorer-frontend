@@ -1,0 +1,29 @@
+.notfound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notfound__code {
+  font-weight: 400;
+  font-size: 140px;
+  line-height: 169px;
+  margin: 250px 0 0 0;
+}
+
+.notfound__text {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  margin: 0;
+}
+
+.notfound__goback {
+  border: none;
+  background-color: transparent;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  margin-top: 185px;
+  cursor: pointer;
+}
