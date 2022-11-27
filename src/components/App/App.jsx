@@ -11,12 +11,45 @@ import NotFound from '../NotFound/NotFound';
 import Profile from '../Profile/Profile';
 import Signup from '../Signup/Signup';
 import Signin from '../Signin/Signin';
+import { moviesApi } from '../../utils/MoviesApi';
 
 function App() {
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [burgerOpen, setBurgerOpen] = React.useState(false);
+  const [movies, setMovies] = React.useState([]);
+  const [showPreloader, setShowPrelodaer] = React.useState(false);
+  const [notFoundVisible, setNotFoundVisible] = React.useState(false);
+  const [requestError, setRequestError] = React.useState('');
+  const [shortMovie, setShortMovie] = React.useState(false);
 
   function controlBurger() {
     setBurgerOpen(!burgerOpen);
+  }
+
+  function preloaderControl() {
+    setShowPrelodaer(!showPreloader)
+  }
+
+  function setShortMovieTrue() {
+    setShortMovie(true);
+  }
+
+  function setShortMovieFalse() {
+    setShortMovie(false);
+  }
+
+  async function getMovies(title) {
+    const movies = await moviesApi.getMovies()
+      .then(res => {
+        setRequestError(false);
+        return res;
+      })
+      .catch(() => setRequestError(true));
+    setShowPrelodaer(false);
+    setNotFoundVisible(true)
+    const requestedFilms = movies.filter(movie => movie.nameRU.toLowerCase().includes(title));
+    setMovies(requestedFilms);
+    console.log(requestedFilms)
   }
 
   return (
@@ -31,7 +64,17 @@ function App() {
           <Main />
         </Route>
         <Route path='/movies'>
-          <Movies />
+          <Movies
+            getMovies={getMovies}
+            movies={movies}
+            preloader={preloaderControl}
+            preloaderState={showPreloader}
+            notFoundVisibility={notFoundVisible}
+            requestError={requestError}
+            setShortMovieTrue={setShortMovieTrue}
+            setShortMovieFalse={setShortMovieFalse}
+            shortMovie={shortMovie}
+          />
         </Route>
         <Route path='/saved-movies'>
           <Movies />
@@ -43,7 +86,7 @@ function App() {
           <Signin />
         </Route>
         <Route path='/signup'>
-          <Signup />
+          <Signup setLoggedIn={setLoggedIn}/>
         </Route>
         <Route path='*'>
           <NotFound />
