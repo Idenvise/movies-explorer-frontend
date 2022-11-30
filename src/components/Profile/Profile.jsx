@@ -1,7 +1,7 @@
 import './Profile.css'
 
 function Profile() {
-
+  const user = React.useContext(CurrentUserContext);
   return(
     <section className='profile' aria-label='Профиль'>
       <h2 className='profile__greeting'>Привет, Виталий!</h2>

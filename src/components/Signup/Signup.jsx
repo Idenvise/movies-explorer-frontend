@@ -1,18 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import './Signup.css'
 import isEmail from 'validator/lib/isEmail';
 import { mainApi } from '../../utils/MainApi';
 
 function Signup(props) {
-  const {setLoggedIn} = props;
+  const {setLoggedIn, setCurrentUser} = props;
   const [nameError, setNameError] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
+  const [submitError, setSubmitError] = React.useState('');
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const regExpName = new RegExp('[^А-Яа-яA-Za-z- ]');
+  const hist = useHistory();
 
   function checkName(e) {
     const name = e.target.value;
@@ -52,7 +54,20 @@ function Signup(props) {
     mainApi.register(name, email, password)
       .then(() => {
         mainApi.login(email, password)
-          .then(() => setLoggedIn(true))
+          .then((res) => {
+            setSubmitError('');
+            localStorage.setItem('token', res.token);
+            setCurrentUser(res.user);
+            setLoggedIn(true);
+            hist.push('/movies');
+          })
+          .catch(err => {
+            return Promise.reject(err);
+          })
+      })
+      .catch(err => {
+        setSubmitError(err);
+        return Promise.reject(err);
       })
   }
 
@@ -70,7 +85,8 @@ function Signup(props) {
         <p className='signup__form-name'>Пароль</p>
         <input className='signup__password input' placeholder='qwerty' type='password' onChange={checkPassword}/>
         <span className={`signup__password-error error ${passwordError ? 'error_visible' : ''}`}>Длина пароля должна быть не менее 8 символов</span>
-        <button className='signup__submit' disabled={nameError === false && emailError === false && name !== '' && email !== '' && password !== '' ? false : true} type='submit' onClick={onSubmit}>Зарегистрироваться</button>
+        <span className={`signup__submit-error error ${submitError !== '' ? 'error_visible' : ''}`}>{submitError}</span>
+        <button className='signup__submit' disabled={nameError === false && emailError === false && passwordError === false && name !== '' && email !== '' && password !== '' ? false : true} type='submit' onClick={onSubmit}>Зарегистрироваться</button>
       </form>
       <p className='signup__already-regitered'>
         Уже зарегистрированы?

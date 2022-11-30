@@ -1,13 +1,25 @@
 import './MoviesCard.css'
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { CurrentUserContext } from '../../../../context/currentUserContext';
+import { mainApi } from '../../../../utils/MainApi';
 
 function MoviesCard(props) {
-  const {image, title, duration, trailerLink, preloaderState} = props;
+  const {image, title, duration, trailerLink, preloaderState, id, movie, setSavedMovies, savedMovies, url} = props;
   const [isLiked, setLike] = React.useState(false);
   const [crossVisible, setCrossVisible] = React.useState(false);
+  const currentUser = React.useContext(CurrentUserContext);
+
   function onLike() {
-    isLiked ? setLike(false) : setLike(true);
+    console.log(movie)
+    const {country, director, duration, year, description, image, trailerLink, nameRU, nameEN, id: movieId} = movie;
+    const thumbnail = url+image.formats.thumbnail.url;
+    mainApi.postMovie(country, director, duration, year, description, url+image.url, trailerLink, nameRU, nameEN, thumbnail, movieId)
+      .then((movie) => {
+        setLike(true)
+        setSavedMovies([...savedMovies, ...movie])
+      })
+      .catch((err) => {return Promise.reject(err)})
   }
   function deleteCrossVisible() {
     setCrossVisible(false);
@@ -21,7 +33,7 @@ function MoviesCard(props) {
     return hours+'ч '+minutes+'м'
   }
   return(
-    <article className={`movies__card ${preloaderState ? 'movies__card_invisible' : ''}`} onMouseOver={setCrossVis} onMouseOut={deleteCrossVisible}>
+    <article id={id} className={`movies__card ${preloaderState ? 'movies__card_invisible' : ''}`} onMouseOver={setCrossVis} onMouseOut={deleteCrossVisible}>
       <a href={trailerLink} rel='noreferrer' target='_blank'>
         <img className='movies__pic' src={image} alt='Картинка фильма' />
       </a>

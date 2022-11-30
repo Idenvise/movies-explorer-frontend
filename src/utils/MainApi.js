@@ -37,6 +37,32 @@ export default class Api {
     }).then(res => {return this._checkResponse(res)})
   }
 
+  tokenCheck = () => {
+    return fetch(`${this.url}/users/me`,{
+        headers: this.headers
+    }).then(res => {return this._checkResponse(res)})
+  }
+
+  postMovie(country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId) {
+    return fetch(`${this.url}/movies`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({
+        "country": country,
+        "director": director,
+        "duration": duration,
+        "year": year,
+        "description": description,
+        "image": image,
+        "trailerLink": trailerLink,
+        "nameRU": nameRU,
+        "nameEN": nameEN,
+        "thumbnail": thumbnail,
+        "movieId": movieId
+      })
+    }).then(res => {return this._checkResponse(res)})
+  }
+
   _checkResponse(res) {
     if (res.ok) {
       return res.json()

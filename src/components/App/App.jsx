@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, useHistory, withRouter } from 'react-router-dom';
 import './App.css';
 import '../../vendor/fonts/Inter/inter.css'
 import Main from '../Main/Main'
@@ -12,8 +12,12 @@ import Profile from '../Profile/Profile';
 import Signup from '../Signup/Signup';
 import Signin from '../Signin/Signin';
 import { moviesApi } from '../../utils/MoviesApi';
+import { CurrentUserContext } from '../../context/currentUserContext';
+import { useEffect } from 'react';
+import { mainApi } from '../../utils/MainApi';
 
 function App() {
+  const hist = useHistory();
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [burgerOpen, setBurgerOpen] = React.useState(false);
   const [movies, setMovies] = React.useState([]);
@@ -21,6 +25,24 @@ function App() {
   const [notFoundVisible, setNotFoundVisible] = React.useState(false);
   const [requestError, setRequestError] = React.useState('');
   const [shortMovie, setShortMovie] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [savedMovies, setSavedMovies] = React.useState([]);
+
+  useEffect(() => {
+    if (localStorage.getItem('token') !== null) {
+      mainApi.tokenCheck(localStorage.getItem('token'))
+        .then((res) => {
+          setLoggedIn(true);
+          setCurrentUser(res.user);
+          hist.push('/movies');
+        })
+        .catch(err => console.log(err))
+    }
+  }, [])
+
+  function movieLike(id) {
+
+  }
 
   function controlBurger() {
     setBurgerOpen(!burgerOpen);
@@ -42,6 +64,7 @@ function App() {
     const movies = await moviesApi.getMovies()
       .then(res => {
         setRequestError(false);
+        console.log(res)
         return res;
       })
       .catch(() => setRequestError(true));
@@ -53,53 +76,53 @@ function App() {
   }
 
   return (
-    <div className='page'>
-      <Switch>
-        <Route exact path={['/', '/movies', '/saved-movies', '/profile', '/signin', '/signup']}>
-          <Header openBurger={controlBurger}/>
-        </Route>
-      </Switch>
-      <Switch>
-        <Route exact path='/'>
-          <Main />
-        </Route>
-        <Route path='/movies'>
-          <Movies
-            getMovies={getMovies}
-            movies={movies}
-            preloader={preloaderControl}
-            preloaderState={showPreloader}
-            notFoundVisibility={notFoundVisible}
-            requestError={requestError}
-            setShortMovieTrue={setShortMovieTrue}
-            setShortMovieFalse={setShortMovieFalse}
-            shortMovie={shortMovie}
-          />
-        </Route>
-        <Route path='/saved-movies'>
-          <Movies />
-        </Route>
-        <Route path='/profile'>
-          <Profile />
-        </Route>
-        <Route path='/signin'>
-          <Signin />
-        </Route>
-        <Route path='/signup'>
-          <Signup setLoggedIn={setLoggedIn}/>
-        </Route>
-        <Route path='*'>
-          <NotFound />
-        </Route>
-      </Switch>
-      <Switch>
-        <Route exact path={['/', '/movies', '/saved-movies']}>
-          <Footer />
-        </Route>
-      </Switch>
-
-      <NavBurgerPanel burgerOpen={burgerOpen} closeBurger={controlBurger}/>
-    </div>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className='page'>
+        <Switch>
+          <Route exact path={['/', '/movies', '/saved-movies', '/profile', '/signin', '/signup']}>
+            <Header openBurger={controlBurger}/>
+          </Route>
+        </Switch>
+        <Switch>
+          <Route exact path='/'>
+            <Main />
+          </Route>
+          <Route path={['/movies', '/saved-movies']}>
+            <Movies
+              getMovies={getMovies}
+              movies={movies}
+              preloader={preloaderControl}
+              preloaderState={showPreloader}
+              notFoundVisibility={notFoundVisible}
+              requestError={requestError}
+              setShortMovieTrue={setShortMovieTrue}
+              setShortMovieFalse={setShortMovieFalse}
+              shortMovie={shortMovie}
+              setSavedMovies={setSavedMovies}
+              savedMovies={savedMovies}
+            />
+          </Route>
+          <Route path='/profile'>
+            <Profile />
+          </Route>
+          <Route path='/signin'>
+            <Signin setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser}/>
+          </Route>
+          <Route path='/signup'>
+            <Signup setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser}/>
+          </Route>
+          <Route path='*'>
+            <NotFound />
+          </Route>
+        </Switch>
+        <Switch>
+          <Route exact path={['/', '/movies', '/saved-movies']}>
+            <Footer />
+          </Route>
+        </Switch>
+        <NavBurgerPanel burgerOpen={burgerOpen} closeBurger={controlBurger}/>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

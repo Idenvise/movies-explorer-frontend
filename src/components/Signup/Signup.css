@@ -98,7 +98,16 @@
   margin-left: 6px;
 }
 
+.signup__submit-error {
+  text-align: center;
+  position: relative;
+  top: 50px;
+}
+
 @media screen and (max-width: 450px) {
+  .signup__submit-error {
+    top: 140px;
+  }
   .signup__greeting {
     margin: 35px auto 0;
   }

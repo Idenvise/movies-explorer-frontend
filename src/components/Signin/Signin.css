@@ -40,6 +40,16 @@
   margin-top: 180px;
 }
 
+.signin__submit:disabled{
+  cursor: default;
+  background-color: #A0A0A0;
+}
+
+.signin__submit:enabled {
+  cursor: pointer;
+  background-color: black;
+}
+
 .signin__notreg {
   font-weight: 400;
   font-size: 14px;
@@ -57,7 +67,32 @@
   margin-left: 6px;
 }
 
+.error {
+  display: block;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF4062;
+  margin-top: 12px;
+  visibility: hidden;
+}
+
+.error_visible {
+  visibility: visible;
+}
+
+.signin__submit-error {
+  text-align: center;
+  position: relative;
+  top: 160px;
+}
+
+
+
 @media screen and (max-width: 450px) {
+  .signin__submit-error {
+    top: 250px;
+  }
   .signin__greeting {
     margin: 35px auto 0;
   }

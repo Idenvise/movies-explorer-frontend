@@ -7,10 +7,10 @@ import Preloader from '../Preloader/Preloader';
 
 function MoviesCardList(props) {
   const imageURL = 'https://api.nomoreparties.co'
-  const {movies, preloaderState, notFoundVisibility, requestError, shortMovie} = props;
+  const {movies, preloaderState, notFoundVisibility, requestError, shortMovie, setSavedMovies, savedMovies} = props;
   const [width, setWidth]   = React.useState(window.innerWidth);
-  const [preparedMovies, setPreparedMovies] = React.useState([]);
   const [showMovies, setShowMovies] = React.useState([]);
+  const [preparedMovies, setPreparedMovies] = React.useState([]);
 
   useEffect(() => {
     setWidth(window.innerWidth);
@@ -51,8 +51,10 @@ function MoviesCardList(props) {
   }
 
   useEffect(() => {
-    setPreparedMovies(JSON.parse(localStorage.getItem('movies')));
-  }, [])
+    if (localStorage.getItem('movies') !== null) {
+      setPreparedMovies(JSON.parse(localStorage.getItem('movies')));
+    }
+    }, []);
 
   return(
     <section className='cards'>
@@ -62,10 +64,13 @@ function MoviesCardList(props) {
             {preloaderState ? <Preloader/> : ''}
             {notFoundVisibility ? <p className={`card-list__notfound ${showMovies.length === 0 && requestError === false ? 'card-list__notfound_visible' : ''}`}>Ничего не найдено</p> : ''}
             {requestError ? <p className='card-list__error'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p> : ''}
-            {showMovies.map(movie => {return(<MoviesCard key={movie.id} image={imageURL+movie.image.url} title={movie.nameRU} duration={movie.duration} trailerLink={movie.trailerLink} preloaderState={preloaderState}/>)})}
+            {showMovies.map(movie => {return(<MoviesCard key={movie.id} savedMovies={savedMovies} url={imageURL} setSavedMovies={setSavedMovies} movie={movie} image={imageURL+movie.image.url} title={movie.nameRU} duration={movie.duration} trailerLink={movie.trailerLink} preloaderState={preloaderState}/>)})}
           </Route>
           <Route path='/saved-movies'>
-
+            {preloaderState ? <Preloader/> : ''}
+            {notFoundVisibility ? <p className={`card-list__notfound ${showMovies.length === 0 && requestError === false ? 'card-list__notfound_visible' : ''}`}>Ничего не найдено</p> : ''}
+            {requestError ? <p className='card-list__error'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p> : ''}
+            {savedMovies.map(movie => {return(<MoviesCard key={movie.id} savedMovies={savedMovies} setSavedMovies={setSavedMovies} movie={movie} image={imageURL+movie.image.url} title={movie.nameRU} duration={movie.duration} trailerLink={movie.trailerLink} preloaderState={preloaderState}/>)})}
           </Route>
         </Switch>
       </div>
