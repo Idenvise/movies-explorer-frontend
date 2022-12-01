@@ -64,13 +64,13 @@ function MoviesCardList(props) {
             {preloaderState ? <Preloader/> : ''}
             {notFoundVisibility ? <p className={`card-list__notfound ${showMovies.length === 0 && requestError === false ? 'card-list__notfound_visible' : ''}`}>Ничего не найдено</p> : ''}
             {requestError ? <p className='card-list__error'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p> : ''}
-            {showMovies.map(movie => {return(<MoviesCard key={movie.id} savedMovies={savedMovies} url={imageURL} setSavedMovies={setSavedMovies} movie={movie} image={imageURL+movie.image.url} title={movie.nameRU} duration={movie.duration} trailerLink={movie.trailerLink} preloaderState={preloaderState}/>)})}
+            {showMovies.map(movie => {return(<MoviesCard key={movie.id} savedMovies={savedMovies} url={imageURL} setSavedMovies={setSavedMovies} movie={movie} title={movie.nameRU} preloaderState={preloaderState}/>)})}
           </Route>
           <Route path='/saved-movies'>
             {preloaderState ? <Preloader/> : ''}
             {notFoundVisibility ? <p className={`card-list__notfound ${showMovies.length === 0 && requestError === false ? 'card-list__notfound_visible' : ''}`}>Ничего не найдено</p> : ''}
             {requestError ? <p className='card-list__error'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p> : ''}
-            {savedMovies.map(movie => {return(<MoviesCard key={movie.id} savedMovies={savedMovies} setSavedMovies={setSavedMovies} movie={movie} image={imageURL+movie.image.url} title={movie.nameRU} duration={movie.duration} trailerLink={movie.trailerLink} preloaderState={preloaderState}/>)})}
+            {savedMovies.map(movie => {return(<MoviesCard key={movie.id} url={imageURL} savedMovies={savedMovies} setSavedMovies={setSavedMovies} movie={movie} title={movie.nameRU} preloaderState={preloaderState}/>)})}
           </Route>
         </Switch>
       </div>

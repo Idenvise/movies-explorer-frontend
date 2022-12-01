@@ -63,6 +63,19 @@ export default class Api {
     }).then(res => {return this._checkResponse(res)})
   }
 
+  deleteMovie(id) {
+    return fetch(`${this.url}/movies/${id}`, {
+      method: "DELETE",
+      headers: this.headers,
+    }).then(res => {return this._checkResponse(res)})
+  }
+
+  getMovies() {
+    return fetch(`${this.url}/movies`, {
+      headers: this.headers,
+    }).then(res => {return this._checkResponse(res)})
+  }
+
   _checkResponse(res) {
     if (res.ok) {
       return res.json()

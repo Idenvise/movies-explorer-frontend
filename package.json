@@ -20,7 +20,6 @@
     "eject": "react-scripts eject",
     "deploy": "react-scripts build && scp -r ./build/* idenvise@api.movies.nomoredomains.icu:/home/idenvise/movies-explorer-frontend"
   },
-
   "browserslist": {
     "production": [
       ">0.2%",

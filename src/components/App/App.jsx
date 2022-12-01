@@ -35,14 +35,14 @@ function App() {
           setLoggedIn(true);
           setCurrentUser(res.user);
           hist.push('/movies');
+          mainApi.getMovies()
+            .then(res => setSavedMovies(res))
+            .catch((err) => {return Promise.reject(err)})
         })
-        .catch(err => console.log(err))
+        .catch((err) => {return Promise.reject(err)})
     }
   }, [])
 
-  function movieLike(id) {
-
-  }
 
   function controlBurger() {
     setBurgerOpen(!burgerOpen);
