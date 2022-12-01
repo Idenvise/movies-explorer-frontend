@@ -15,6 +15,7 @@ import { moviesApi } from '../../utils/MoviesApi';
 import { CurrentUserContext } from '../../context/currentUserContext';
 import { useEffect } from 'react';
 import { mainApi } from '../../utils/MainApi';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
   const hist = useHistory();
@@ -33,7 +34,7 @@ function App() {
       mainApi.tokenCheck(localStorage.getItem('token'))
         .then((res) => {
           setLoggedIn(true);
-          setCurrentUser(res.user);
+          setCurrentUser(res);
           hist.push('/movies');
           mainApi.getMovies()
             .then(res => setSavedMovies(res))
@@ -42,6 +43,10 @@ function App() {
         .catch((err) => {return Promise.reject(err)})
     }
   }, [])
+
+  useEffect(() => {
+    mainApi.updateToken();
+  }, [loggedIn]);
 
 
   function controlBurger() {
@@ -64,7 +69,6 @@ function App() {
     const movies = await moviesApi.getMovies()
       .then(res => {
         setRequestError(false);
-        console.log(res)
         return res;
       })
       .catch(() => setRequestError(true));
@@ -72,7 +76,6 @@ function App() {
     setNotFoundVisible(true)
     const requestedFilms = movies.filter(movie => movie.nameRU.toLowerCase().includes(title));
     setMovies(requestedFilms);
-    console.log(requestedFilms)
   }
 
   return (
@@ -80,7 +83,7 @@ function App() {
       <div className='page'>
         <Switch>
           <Route exact path={['/', '/movies', '/saved-movies', '/profile', '/signin', '/signup']}>
-            <Header openBurger={controlBurger}/>
+            <Header openBurger={controlBurger} loggedIn={loggedIn}/>
           </Route>
         </Switch>
         <Switch>
@@ -88,7 +91,10 @@ function App() {
             <Main />
           </Route>
           <Route path={['/movies', '/saved-movies']}>
-            <Movies
+            <ProtectedRoute
+              component={Movies}
+              loggedIn={loggedIn}
+              redirectPath='/'
               getMovies={getMovies}
               movies={movies}
               preloader={preloaderControl}
@@ -103,7 +109,13 @@ function App() {
             />
           </Route>
           <Route path='/profile'>
-            <Profile />
+            <ProtectedRoute
+              component={Profile}
+              loggedIn={loggedIn}
+              redirectPath='/'
+              setCurrentUser={setCurrentUser}
+              setLoggedIn={setLoggedIn}
+            />
           </Route>
           <Route path='/signin'>
             <Signin setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser}/>

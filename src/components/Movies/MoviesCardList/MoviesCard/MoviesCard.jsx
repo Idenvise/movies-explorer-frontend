@@ -6,39 +6,33 @@ import { mainApi } from '../../../../utils/MainApi';
 import { useEffect } from 'react';
 
 function MoviesCard(props) {
-  const {title, preloaderState, movie, setSavedMovies, savedMovies, url} = props;
-  const {country, director, duration, year, description, image, trailerLink, nameRU, nameEN, id: movieId} = movie;
+  const {title, preloaderState, movie, setSavedMovies, savedMovies, url, id} = props;
+  const {country, director, duration, year, description, image, trailerLink, nameRU, nameEN} = movie;
   const [isLiked, setLike] = React.useState(false);
   const [crossVisible, setCrossVisible] = React.useState(false);
   const currentUser = React.useContext(CurrentUserContext);
 
   useEffect(() => {
-    if (savedMovies.some(movie => movie.movieId === movieId)) {
+    if (savedMovies.some(movie => movie.movieId === id)) {
       setLike(true);
     } else {
       setLike(false);
     }
   }, [savedMovies])
 
-
   function onLike() {
-
     if (isLiked === true || window.location.pathname === '/saved-movies') {
-      const movie = savedMovies.filter((movie) => movie.movieId === movieId);
-      console.log(savedMovies);
-      console.log(movieId)
-      console.log(movie);
-      const dbId =  window.location.pathname === '/saved-movies' ? movie[0].movieId : movie[0]._id;
-      mainApi.deleteMovie(dbId)
+      const movie = savedMovies.filter((movie) => movie.movieId === id);
+      mainApi.deleteMovie(movie[0]._id)
       .then(() => {
         setLike(false);
-        setSavedMovies(savedMovies.filter((movie) => {return movie.movieId !== movieId}));
+        setSavedMovies(savedMovies.filter((movie) => {return movie.movieId !== id}));
       })
       .catch(err => {return Promise.reject(err)});
       return;
     }
     if (isLiked !== true) {
-       mainApi.postMovie(country, director, duration, year, description, url+image.url, trailerLink, nameRU, nameEN, url+image.formats.thumbnail.url, movieId)
+       mainApi.postMovie(country, director, duration, year, description, url+image.url, trailerLink, nameRU, nameEN, url+image.formats.thumbnail.url, id)
       .then((movie) => {
         setLike(true);
         setSavedMovies([...savedMovies, movie]);

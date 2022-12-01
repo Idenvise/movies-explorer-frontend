@@ -14,6 +14,10 @@ export default class Api {
     this.headers = config.headers;
   }
 
+  updateToken() {
+    config.headers.authorization = localStorage.getItem('token');
+  }
+
   register(name, email, password) {
     return fetch(`${this.url}/signup`, {
       method: 'POST',
@@ -27,6 +31,7 @@ export default class Api {
   }
 
   login(email, password) {
+
     return fetch(`${this.url}/signin`, {
       method: 'POST',
       headers: this.headers,
@@ -37,7 +42,7 @@ export default class Api {
     }).then(res => {return this._checkResponse(res)})
   }
 
-  tokenCheck = () => {
+  tokenCheck() {
     return fetch(`${this.url}/users/me`,{
         headers: this.headers
     }).then(res => {return this._checkResponse(res)})
@@ -59,6 +64,17 @@ export default class Api {
         "nameEN": nameEN,
         "thumbnail": thumbnail,
         "movieId": movieId
+      })
+    }).then(res => {return this._checkResponse(res)})
+  }
+
+  patchUser(name, email) {
+    return fetch(`${this.url}/users/me`,{
+      method: 'PATCH',
+      headers: this.headers,
+      body: JSON.stringify({
+        "name": name,
+        "email": email
       })
     }).then(res => {return this._checkResponse(res)})
   }

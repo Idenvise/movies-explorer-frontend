@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import './Signup.css'
 import isEmail from 'validator/lib/isEmail';
 import { mainApi } from '../../utils/MainApi';
+import { regExpName } from '../../utils/consts';
 
 function Signup(props) {
   const {setLoggedIn, setCurrentUser} = props;
@@ -13,7 +14,6 @@ function Signup(props) {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const regExpName = new RegExp('[^А-Яа-яA-Za-z- ]');
   const hist = useHistory();
 
   function checkName(e) {
