@@ -11,7 +11,7 @@ function NavBurgerPanel(props) {
         <Link className='panel__main panel__font' to='/' onClick={props.closeBurger}>Главная</Link>
         <Link className='panel__movies panel__font' to='/movies' onClick={props.closeBurger}>Фильмы</Link>
         <Link className='panel__saved-movies panel__font' to='/saved-movies' onClick={props.closeBurger}>Сохранённые фильмы</Link>
-        <Link className='panel__account nav' to='/account' onClick={props.closeBurger}>Аккаунт<img className='panel__account__image' src={userImage} alt='Значёк профия' /></Link>
+        <Link className='panel__account nav' to='/profile' onClick={props.closeBurger}>Аккаунт<img className='panel__account__image' src={userImage} alt='Значёк профия' /></Link>
       </div>
     </section>
   )

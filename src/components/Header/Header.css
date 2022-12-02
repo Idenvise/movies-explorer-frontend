@@ -4,6 +4,7 @@
   display: flex;
   background-color: #F3C1F8;
   box-sizing: border-box;
+  justify-content: space-between;
 }
 
 .header_white {

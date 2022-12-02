@@ -43,6 +43,7 @@
   line-height: 16px;
   background-color: rgba(0, 0, 0, 0);
   margin: 146px 0 0 70px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
@@ -78,6 +79,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .promo__heading {
+    font-size: 30px;
+    line-height: 38px;
   }
 }
 

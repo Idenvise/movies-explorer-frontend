@@ -1,5 +1,6 @@
 .cards {
   margin: 0 70px 145px;
+  position: relative;
 }
 
 .card-list {
@@ -10,6 +11,11 @@
   grid-auto-flow: row;
   padding-top: 80px;
   border-top: 1px solid #E8E8E8;
+}
+
+.card-list_flex {
+  display: flex;
+  flex-direction: column;
 }
 
 .card-list__more {
@@ -26,7 +32,26 @@
   justify-content: center;
   height: 36px;
   cursor: pointer;
+  display: none;
 }
+
+.card-list__notfound {
+  display: none;
+  margin: 0 auto;
+}
+
+.card-list__error {
+  text-align: center;
+}
+
+.card-list__notfound_visible {
+  display: flex;
+}
+
+.card-list__more_visible {
+  display: flex;
+}
+
 
 @media screen and (max-width: 768px) {
   .cards {
@@ -40,7 +65,7 @@
     margin-top: 82px;
   }
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 480px) {
   .card-list {
     grid-template-columns: repeat(1, 1fr);
     gap: 10px;
