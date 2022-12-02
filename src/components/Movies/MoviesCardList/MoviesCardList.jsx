@@ -7,9 +7,10 @@ import Preloader from '../Preloader/Preloader';
 
 function MoviesCardList(props) {
   const imageURL = 'https://api.nomoreparties.co'
-  const {movies, preloaderState, notFoundVisibility, requestError, shortMovie, setSavedMovies, savedMovies} = props;
+  const {movies, preloaderState, notFoundVisibility, requestError, shortMovie, setSavedMovies, savedMovies, setMovies} = props;
   const [width, setWidth]   = React.useState(window.innerWidth);
   const [showMovies, setShowMovies] = React.useState([]);
+  const [showSavedMovies, setShowSavedMovies] = React.useState([]);
   const [preparedMovies, setPreparedMovies] = React.useState([]);
 
   useEffect(() => {
@@ -18,13 +19,13 @@ function MoviesCardList(props) {
 
   useEffect(() => {
     shortMovie ? setPreparedMovies(movies.filter(movie => movie.duration <= 40)) : setPreparedMovies(movies);
-  }, [movies]);
+  }, [movies, shortMovie]);
 
   useEffect(() => {
-    if (preparedMovies.length !== 0) {
-      localStorage.setItem('movies', JSON.stringify(preparedMovies));
-    }
+    shortMovie ? setShowSavedMovies(savedMovies.filter(movie => movie.duration <= 40)) : setShowSavedMovies(savedMovies);
+  }, [savedMovies, shortMovie])
 
+  useEffect(() => {
     if (width>768) {
       setShowMovies(preparedMovies.slice(0,12).map(movie => {return movie}))
       return
@@ -52,9 +53,14 @@ function MoviesCardList(props) {
 
   useEffect(() => {
     if (localStorage.getItem('movies') !== null) {
-      setPreparedMovies(JSON.parse(localStorage.getItem('movies')));
+      setMovies(JSON.parse(localStorage.getItem('movies')));
     }
     }, []);
+
+  useEffect(() => {
+    localStorage.setItem('movies', JSON.stringify(movies));
+  }, [movies])
+
 
   return(
     <section className='cards'>
@@ -70,7 +76,7 @@ function MoviesCardList(props) {
             {preloaderState ? <Preloader/> : ''}
             {notFoundVisibility ? <p className={`card-list__notfound ${showMovies.length === 0 && requestError === false ? 'card-list__notfound_visible' : ''}`}>Ничего не найдено</p> : ''}
             {requestError ? <p className='card-list__error'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p> : ''}
-            {savedMovies.map(movie => {return(<MoviesCard key={movie.movieId} id={movie.movieId} url={imageURL} savedMovies={savedMovies} setSavedMovies={setSavedMovies} movie={movie} title={movie.nameRU} preloaderState={preloaderState}/>)})}
+            {showSavedMovies.map(movie => {return(<MoviesCard key={movie.movieId} id={movie.movieId} url={imageURL} savedMovies={savedMovies} setSavedMovies={setSavedMovies} movie={movie} title={movie.nameRU} preloaderState={preloaderState}/>)})}
           </Route>
         </Switch>
       </div>

@@ -18,6 +18,10 @@
   font-size: 13px;
   line-height: 16px;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 230px;
 }
 
 .movies__wrapper {
@@ -67,6 +71,13 @@
 .movies__like_active {
   background-image: url('../../../../images/like_active.svg');
 }
+
+@media screen and (max-width: 1000px) and (min-width: 769px){
+  .movies__title {
+    width: 160px;
+  }
+}
+
 
 @media screen and (max-width: 768px) {
   .movies__pic {

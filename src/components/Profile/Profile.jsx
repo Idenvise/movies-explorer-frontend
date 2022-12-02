@@ -4,12 +4,10 @@ import { CurrentUserContext } from '../../context/currentUserContext';
 import isEmail from 'validator/lib/isEmail';
 import { regExpName } from '../../utils/consts';
 import { mainApi } from '../../utils/MainApi';
-import { useHistory } from 'react-router-dom';
 
 function Profile(props) {
   const { setCurrentUser, setLoggedIn } = props;
-  const hist = useHistory();
-  const {name, email, _id} = React.useContext(CurrentUserContext);
+  const {name, email} = React.useContext(CurrentUserContext);
   const [newName, setNewName] = React.useState(name);
   const [newEmail, setNewEmail] = React.useState(email);
   const [nameError, setNameError] = React.useState(false);

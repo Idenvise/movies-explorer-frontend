@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { Route, Switch, Link, useLocation } from 'react-router-dom';
+import { Route, Link, useLocation } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import userImage from '../../images/default_user_image.svg';
 import './Header.css'
@@ -40,7 +40,7 @@ function Header(props) {
             ) : (
               <nav className='header__nav'>
                 <Link className='header__films nav' to='/movies'>Фильмы</Link>
-                <Link className='header__saved-films nav' to='/saved-movies'>Сохранённые Фильмы</Link>
+                <Link className='header__saved-films nav' to='/saved-movies'>Сохранённые фильмы</Link>
                 <Link className='header__account nav' to='/profile'>Аккаунт<img className='header__account__image' src={userImage} alt='Значёк профия' /></Link>
                 <button className='header__burger nav' type='button' onClick={openBurger}/>
               </nav>

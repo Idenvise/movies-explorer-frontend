@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useHistory, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import './App.css';
 import '../../vendor/fonts/Inter/inter.css'
 import Main from '../Main/Main'
@@ -18,7 +18,6 @@ import { mainApi } from '../../utils/MainApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
-  const hist = useHistory();
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [burgerOpen, setBurgerOpen] = React.useState(false);
   const [movies, setMovies] = React.useState([]);
@@ -28,6 +27,7 @@ function App() {
   const [shortMovie, setShortMovie] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
   const [savedMovies, setSavedMovies] = React.useState([]);
+  const [allowRedirect, setAllowRedirect] = React.useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
@@ -35,12 +35,15 @@ function App() {
         .then((res) => {
           setLoggedIn(true);
           setCurrentUser(res);
-          hist.push('/movies');
+          setAllowRedirect(false);
           mainApi.getMovies()
             .then(res => setSavedMovies(res))
             .catch((err) => {return Promise.reject(err)})
         })
-        .catch((err) => {return Promise.reject(err)})
+        .catch((err) => {
+          setAllowRedirect(true);
+          return Promise.reject(err);
+        })
     }
   }, [])
 
@@ -73,9 +76,10 @@ function App() {
       })
       .catch(() => setRequestError(true));
     setShowPrelodaer(false);
-    setNotFoundVisible(true)
-    const requestedFilms = movies.filter(movie => movie.nameRU.toLowerCase().includes(title));
+    setNotFoundVisible(true);
+    const requestedFilms = movies.filter(movie => movie.nameRU.toLowerCase().includes(title.toLowerCase()));
     setMovies(requestedFilms);
+
   }
 
   return (
@@ -95,6 +99,7 @@ function App() {
               component={Movies}
               loggedIn={loggedIn}
               redirectPath='/'
+              allowRedirect={allowRedirect}
               getMovies={getMovies}
               movies={movies}
               preloader={preloaderControl}
@@ -106,6 +111,7 @@ function App() {
               shortMovie={shortMovie}
               setSavedMovies={setSavedMovies}
               savedMovies={savedMovies}
+              setMovies={setMovies}
             />
           </Route>
           <Route path='/profile'>
@@ -113,6 +119,7 @@ function App() {
               component={Profile}
               loggedIn={loggedIn}
               redirectPath='/'
+              allowRedirect={allowRedirect}
               setCurrentUser={setCurrentUser}
               setLoggedIn={setLoggedIn}
             />

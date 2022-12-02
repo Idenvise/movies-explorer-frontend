@@ -1,7 +1,6 @@
 import './MoviesCard.css'
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { CurrentUserContext } from '../../../../context/currentUserContext';
 import { mainApi } from '../../../../utils/MainApi';
 import { useEffect } from 'react';
 
@@ -10,7 +9,6 @@ function MoviesCard(props) {
   const {country, director, duration, year, description, image, trailerLink, nameRU, nameEN} = movie;
   const [isLiked, setLike] = React.useState(false);
   const [crossVisible, setCrossVisible] = React.useState(false);
-  const currentUser = React.useContext(CurrentUserContext);
 
   useEffect(() => {
     if (savedMovies.some(movie => movie.movieId === id)) {
