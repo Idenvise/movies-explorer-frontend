@@ -4,6 +4,7 @@ import { CurrentUserContext } from '../../context/currentUserContext';
 import isEmail from 'validator/lib/isEmail';
 import { regExpName } from '../../utils/consts';
 import { mainApi } from '../../utils/MainApi';
+import { useHistory } from 'react-router-dom';
 
 function Profile(props) {
   const { setCurrentUser, setLoggedIn } = props;
@@ -13,6 +14,7 @@ function Profile(props) {
   const [nameError, setNameError] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
   const [submitInfo, setSubmitInfo] = React.useState('');
+  const hist = useHistory();
 
   function checkName(e) {
     setNewName(e.target.value)
@@ -45,6 +47,7 @@ function Profile(props) {
   function signOut() {
     localStorage.removeItem('token');
     setLoggedIn(false);
+    hist.push('/');
   }
 
   return(

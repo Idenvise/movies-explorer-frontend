@@ -58,7 +58,7 @@ function MoviesCardList(props) {
     }, []);
 
   useEffect(() => {
-    localStorage.setItem('movies', JSON.stringify(movies));
+    movies.length > 0 && localStorage.setItem('movies', JSON.stringify(movies));
   }, [movies])
 
 

@@ -28,7 +28,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [allowRedirect, setAllowRedirect] = React.useState(false);
-
+console.log(localStorage.getItem('token'))
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
       mainApi.tokenCheck(localStorage.getItem('token'))
@@ -44,6 +44,8 @@ function App() {
           setAllowRedirect(true);
           return Promise.reject(err);
         })
+    } else {
+      setAllowRedirect(true);
     }
   }, [])
 
