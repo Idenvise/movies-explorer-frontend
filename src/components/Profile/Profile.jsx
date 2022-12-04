@@ -7,7 +7,7 @@ import { mainApi } from '../../utils/MainApi';
 import { useHistory } from 'react-router-dom';
 
 function Profile(props) {
-  const { setCurrentUser, setLoggedIn } = props;
+  const { setCurrentUser, logOut } = props;
   const {name, email} = React.useContext(CurrentUserContext);
   const [newName, setNewName] = React.useState(name);
   const [newEmail, setNewEmail] = React.useState(email);
@@ -41,13 +41,21 @@ function Profile(props) {
         setCurrentUser(res);
         setSubmitInfo('Данные успешно изменены')
       })
-      .catch(err => {return Promise.reject(err)})
+      .catch(err => {
+        if (err === 'Ошибка 401') {
+          signOut();
+        }
+        return Promise.reject(err)
+      })
   }
 
   function signOut() {
-    localStorage.removeItem('token');
-    setLoggedIn(false);
-    hist.push('/');
+    logOut();
+    setNewName('');
+    setNewEmail('');
+    setNameError(false);
+    setEmailError(false);
+    setSubmitInfo('');
   }
 
   return(
@@ -65,7 +73,7 @@ function Profile(props) {
           <input type='email' className='profile__useremail profile__input profile__data__font' defaultValue={email} onChange={checkEmail}></input>
         </div>
         <span className={`profile__submit-info ${submitInfo !== '' ? 'visible' : ''}`} >{submitInfo}</span>
-        <button className='profile__user-info-edit profile__button' type='submit' onClick={patchUser} disabled={(newName !== name || newEmail !== email) && emailError === false && nameError === false && newEmail !== '' &&  newEmail !== '' ? false : true}>Редактировать</button>
+        <button className='profile__user-info-edit profile__button' type='submit' onClick={patchUser} disabled={(newName !== name || newEmail !== email) && emailError === false && nameError === false && newName !== '' ? false : true}>Редактировать</button>
         <button className='profile__exit profile__button' type='button' onClick={signOut}>Выйти из аккаунта</button>
       </form>
     </section>

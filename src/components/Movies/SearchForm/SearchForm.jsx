@@ -5,13 +5,13 @@ import React from 'react';
 import { useEffect } from 'react';
 
 function SearchForm(props) {
-  const {getMovies, preloader, setShortMovieTrue, setShortMovieFalse, shortMovie} = props;
+  const {getMovies, preloader, setShortMovieTrue, setShortMovieFalse, shortMovie, clearStates} = props;
   const [movieTitle, setMovieTitle] = React.useState('');
   const [error, setError] = React.useState(false);
 
   function handleTitle(e) {
     setMovieTitle(e.target.value);
-    localStorage.setItem('searchRequset', e.target.value);
+    window.location.pathname === '/movies' && localStorage.setItem('searchRequset', e.target.value);
   };
 
   function searchSubmit(e) {
@@ -22,10 +22,11 @@ function SearchForm(props) {
     if (movieTitle !== '') {
       setError(false);
     }
-    preloader();
+    if (window.location.pathname === '/movies') {
+      localStorage.setItem('checkboxState', shortMovie);
+      localStorage.getItem('movies') === null && preloader();
+    }
     getMovies(movieTitle);
-    localStorage.setItem('checkboxState', shortMovie);
-
   };
   function shortMovieCheck(e) {
     if (e.target.checked) {
@@ -45,6 +46,13 @@ function SearchForm(props) {
       setShortMovieFalse();
     }
   }, [])
+
+  useEffect(() => {
+    if (clearStates === true) {
+      setError(false);
+      setMovieTitle(false);
+    }
+  }, [clearStates])
 
   return(
     <section className="search" aria-label="Поиск фильмов">

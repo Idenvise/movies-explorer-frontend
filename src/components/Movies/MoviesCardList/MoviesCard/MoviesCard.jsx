@@ -5,7 +5,7 @@ import { mainApi } from '../../../../utils/MainApi';
 import { useEffect } from 'react';
 
 function MoviesCard(props) {
-  const {title, preloaderState, movie, setSavedMovies, savedMovies, url, id} = props;
+  const {title, preloaderState, movie, setSavedMovies, savedMovies, url, id, logOut} = props;
   const {country, director, duration, year, description, image, trailerLink, nameRU, nameEN} = movie;
   const [isLiked, setLike] = React.useState(false);
   const [crossVisible, setCrossVisible] = React.useState(false);
@@ -26,7 +26,12 @@ function MoviesCard(props) {
         setLike(false);
         setSavedMovies(savedMovies.filter((movie) => {return movie.movieId !== id}));
       })
-      .catch(err => {return Promise.reject(err)});
+      .catch(err => {
+        if (err === 'Ошибка 401') {
+          logOut();
+        }
+        return Promise.reject(err)
+      });
       return;
     }
     if (isLiked !== true) {
@@ -35,7 +40,12 @@ function MoviesCard(props) {
         setLike(true);
         setSavedMovies([...savedMovies, movie]);
       })
-      .catch((err) => {return Promise.reject(err)});
+      .catch((err) => {
+        if (err === 'Ошибка 401') {
+          logOut();
+        }
+        return Promise.reject(err)
+      });
       return;
     }
   }

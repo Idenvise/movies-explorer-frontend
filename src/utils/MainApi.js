@@ -14,11 +14,12 @@ export default class Api {
     this.headers = config.headers;
   }
 
-  updateToken() {
+  _updateToken() {
     config.headers.authorization = localStorage.getItem('token');
   }
 
   register(name, email, password) {
+    this._updateToken();
     return fetch(`${this.url}/signup`, {
       method: 'POST',
       headers: this.headers,
@@ -31,7 +32,7 @@ export default class Api {
   }
 
   login(email, password) {
-
+    this._updateToken();
     return fetch(`${this.url}/signin`, {
       method: 'POST',
       headers: this.headers,
@@ -43,12 +44,14 @@ export default class Api {
   }
 
   tokenCheck() {
+    this._updateToken();
     return fetch(`${this.url}/users/me`,{
         headers: this.headers
     }).then(res => {return this._checkResponse(res)})
   }
 
   postMovie(country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId) {
+    this._updateToken();
     return fetch(`${this.url}/movies`, {
       method: 'POST',
       headers: this.headers,
@@ -69,6 +72,7 @@ export default class Api {
   }
 
   patchUser(name, email) {
+    this._updateToken();
     return fetch(`${this.url}/users/me`,{
       method: 'PATCH',
       headers: this.headers,
@@ -80,6 +84,7 @@ export default class Api {
   }
 
   deleteMovie(id) {
+    this._updateToken();
     return fetch(`${this.url}/movies/${id}`, {
       method: "DELETE",
       headers: this.headers,
@@ -87,6 +92,7 @@ export default class Api {
   }
 
   getMovies() {
+    this._updateToken();
     return fetch(`${this.url}/movies`, {
       headers: this.headers,
     }).then(res => {return this._checkResponse(res)})

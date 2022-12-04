@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, useHistory, withRouter } from 'react-router-dom';
 import './App.css';
 import '../../vendor/fonts/Inter/inter.css'
 import Main from '../Main/Main'
@@ -16,19 +16,26 @@ import { CurrentUserContext } from '../../context/currentUserContext';
 import { useEffect } from 'react';
 import { mainApi } from '../../utils/MainApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import ProtectedAuthRoute from '../ProtectedAuthRoute/ProtectedAuthRoute';
 
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [burgerOpen, setBurgerOpen] = React.useState(false);
-  const [movies, setMovies] = React.useState([]);
   const [showPreloader, setShowPrelodaer] = React.useState(false);
   const [notFoundVisible, setNotFoundVisible] = React.useState(false);
-  const [requestError, setRequestError] = React.useState('');
+  const [requestError, setRequestError] = React.useState(false);
   const [shortMovie, setShortMovie] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
   const [savedMovies, setSavedMovies] = React.useState([]);
+  const [filteredSavedMovies, setFilteredSavedMovies] = React.useState([]);
   const [allowRedirect, setAllowRedirect] = React.useState(false);
-console.log(localStorage.getItem('token'))
+  const [newMovies, setNewMovies] = React.useState([]);
+  const [clearStates, setClearStates] = React.useState(false);
+  const [movies, setMovies] = React.useState([]);
+  const [title, setTitle] = React.useState('');
+  const [savedTitle, setSavedTitle] = React.useState('');
+  const hist = useHistory();
+
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
       mainApi.tokenCheck(localStorage.getItem('token'))
@@ -36,9 +43,14 @@ console.log(localStorage.getItem('token'))
           setLoggedIn(true);
           setCurrentUser(res);
           setAllowRedirect(false);
+          const localMovies = localStorage.getItem('localMovies')
+          localMovies !== null && localMovies.length !== 0 && setNewMovies(JSON.parse(localMovies));
           mainApi.getMovies()
-            .then(res => setSavedMovies(res))
-            .catch((err) => {return Promise.reject(err)})
+          .then(res => {
+            setSavedMovies(res)
+            setFilteredSavedMovies(res);
+          })
+          .catch(err => {return Promise.reject(err)})
         })
         .catch((err) => {
           setAllowRedirect(true);
@@ -50,9 +62,15 @@ console.log(localStorage.getItem('token'))
   }, [])
 
   useEffect(() => {
-    mainApi.updateToken();
-  }, [loggedIn]);
-
+    if (loggedIn === true) {
+      mainApi.getMovies()
+      .then(res => {
+        setSavedMovies(res)
+        setFilteredSavedMovies(res);
+      })
+      .catch(err => {return Promise.reject(err)})
+    }
+  }, [loggedIn])
 
   function controlBurger() {
     setBurgerOpen(!burgerOpen);
@@ -70,19 +88,69 @@ console.log(localStorage.getItem('token'))
     setShortMovie(false);
   }
 
-  async function getMovies(title) {
-    const movies = await moviesApi.getMovies()
-      .then(res => {
-        setRequestError(false);
-        return res;
-      })
-      .catch(() => setRequestError(true));
-    setShowPrelodaer(false);
+  function getMovies(title) {
+    setTitle(title);
     setNotFoundVisible(true);
-    const requestedFilms = movies.filter(movie => movie.nameRU.toLowerCase().includes(title.toLowerCase()));
-    setMovies(requestedFilms);
-
+    if (window.location.pathname === '/movies') {
+    mainApi.tokenCheck()
+    .then(() => {
+      const localMovies = localStorage.getItem('movies')
+      if (localMovies === null) {
+        moviesApi.getMovies()
+        .then(res => {
+          setMovies(res);
+          setRequestError(false);
+          localStorage.setItem('movies', JSON.stringify(res))
+          return res;
+        })
+        .catch(() => setRequestError(true));
+        setShowPrelodaer(false);
+      } else {
+      setMovies(JSON.parse(localMovies));
+      }
+    })
+    .catch(err => {if (err === 'Ошибка 401') {
+      logOut();
+    }})
+    }
+    if (window.location.pathname === '/saved-movies') {
+      setSavedTitle(title);
+    }
   }
+
+  useEffect(() => {
+      setNewMovies(movies.filter(movie => movie.nameRU.toLowerCase().includes(title.toLowerCase())));
+  }, [title, movies]);
+
+  useEffect(() => {
+    setFilteredSavedMovies(savedMovies.filter(movie => movie.nameRU.toLowerCase().includes(savedTitle.toLowerCase())));
+  }, [savedTitle, savedMovies])
+
+  function logOut() {
+    setClearStates(true);
+    setLoggedIn(false);
+    setAllowRedirect(true);
+    localStorage.clear();
+    hist.push('/');
+  }
+
+  useEffect(() => {
+    if (clearStates === true) {
+      setLoggedIn(false);
+      setBurgerOpen(false);
+      setShowPrelodaer(false);
+      setNotFoundVisible(false);
+      setRequestError('');
+      setShortMovie(false);
+      setCurrentUser({});
+      setSavedMovies([]);
+      setAllowRedirect(false);
+      setNewMovies([]);
+      setMovies([]);
+      setClearStates(false);
+      setFilteredSavedMovies([]);
+    }
+  }, [clearStates])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -103,17 +171,20 @@ console.log(localStorage.getItem('token'))
               redirectPath='/'
               allowRedirect={allowRedirect}
               getMovies={getMovies}
-              movies={movies}
               preloader={preloaderControl}
               preloaderState={showPreloader}
-              notFoundVisibility={notFoundVisible}
+              notFoundVisible={notFoundVisible}
               requestError={requestError}
               setShortMovieTrue={setShortMovieTrue}
               setShortMovieFalse={setShortMovieFalse}
               shortMovie={shortMovie}
               setSavedMovies={setSavedMovies}
               savedMovies={savedMovies}
-              setMovies={setMovies}
+              newMovies={newMovies}
+              logOut={logOut}
+              clearStates={clearStates}
+              filteredSavedMovies={filteredSavedMovies}
+              setFilteredSavedMovies={setFilteredSavedMovies}
             />
           </Route>
           <Route path='/profile'>
@@ -124,13 +195,14 @@ console.log(localStorage.getItem('token'))
               allowRedirect={allowRedirect}
               setCurrentUser={setCurrentUser}
               setLoggedIn={setLoggedIn}
+              logOut={logOut}
             />
           </Route>
           <Route path='/signin'>
-            <Signin setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser}/>
+            <ProtectedAuthRoute component={Signin} loggedIn={loggedIn} redirectPath='/movies' setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser}/>
           </Route>
           <Route path='/signup'>
-            <Signup setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser}/>
+            <ProtectedAuthRoute component={Signup} loggedIn={loggedIn} redirectPath='/movies' setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser}/>
           </Route>
           <Route path='*'>
             <NotFound />
@@ -148,3 +220,4 @@ console.log(localStorage.getItem('token'))
 }
 
 export default withRouter(App);
+

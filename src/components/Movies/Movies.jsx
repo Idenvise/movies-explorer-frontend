@@ -3,18 +3,22 @@ import MoviesCardList from './MoviesCardList/MoviesCardList'
 
 function Movies(props) {
   const {
-    movies,
     getMovies,
     preloader,
     preloaderState,
-    notFoundVisibility,
     requestError,
     setShortMovieTrue,
     setShortMovieFalse,
     shortMovie,
     setSavedMovies,
     savedMovies,
-    setMovies} = props;
+    newMovies,
+    logOut,
+    clearStates,
+    filteredSavedMovies,
+    setFilteredSavedMovies,
+    notFoundVisible
+  } = props;
   return(
     <section className='movies-page' aria-label='Старница фильмы'>
       <SearchForm
@@ -23,16 +27,20 @@ function Movies(props) {
         setShortMovieFalse={setShortMovieFalse}
         setShortMovieTrue={setShortMovieTrue}
         shortMovie={shortMovie}
+        clearStates={clearStates}
       />
       <MoviesCardList
-        movies={movies}
         preloaderState={preloaderState}
-        notFoundVisibility={notFoundVisibility}
+        notFoundVisible={notFoundVisible}
         requestError={requestError}
         shortMovie={shortMovie}
         setSavedMovies={setSavedMovies}
         savedMovies={savedMovies}
-        setMovies={setMovies}
+        newMovies={newMovies}
+        logOut={logOut}
+        clearStates={clearStates}
+        filteredSavedMovies={filteredSavedMovies}
+        setFilteredSavedMovies={setFilteredSavedMovies}
       />
     </section>
 
