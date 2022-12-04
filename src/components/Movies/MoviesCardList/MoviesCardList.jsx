@@ -61,10 +61,6 @@ function MoviesCardList(props) {
       setPreparedMovies([]);
     }
   }, [clearStates])
-  console.log(showMovies);
-  console.log(notFoundVisible);
-  console.log(requestError)
-
   return(
     <section className='cards'>
       <div className={`card-list ${(showMovies.length === 0 && window.location.pathname === '/movies') || (showSavedMovie.length === 0 && window.location.pathname === '/saved-movies') ? 'card-list_flex' : ''} ${preloaderState ? 'card-list_flex' : ''}`}>

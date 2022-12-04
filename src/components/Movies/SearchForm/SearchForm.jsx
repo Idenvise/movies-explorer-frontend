@@ -16,8 +16,9 @@ function SearchForm(props) {
 
   function searchSubmit(e) {
     e.preventDefault();
-    if (movieTitle === '') {
-      return setError(true);
+    if (movieTitle === '' || movieTitle === null) {
+      setError(true);
+      return;
     }
     if (movieTitle !== '') {
       setError(false);
@@ -50,7 +51,7 @@ function SearchForm(props) {
   useEffect(() => {
     if (clearStates === true) {
       setError(false);
-      setMovieTitle(false);
+      setMovieTitle('');
     }
   }, [clearStates])
 
