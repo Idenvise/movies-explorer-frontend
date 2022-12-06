@@ -17,7 +17,8 @@ function Movies(props) {
     clearStates,
     filteredSavedMovies,
     setFilteredSavedMovies,
-    notFoundVisible
+    notFoundVisible,
+    movies
   } = props;
   return(
     <section className='movies-page' aria-label='Старница фильмы'>
@@ -41,6 +42,7 @@ function Movies(props) {
         clearStates={clearStates}
         filteredSavedMovies={filteredSavedMovies}
         setFilteredSavedMovies={setFilteredSavedMovies}
+        movies={movies}
       />
     </section>
 

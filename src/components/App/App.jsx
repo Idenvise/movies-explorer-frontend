@@ -44,7 +44,7 @@ function App() {
           setCurrentUser(res);
           setAllowRedirect(false);
           const localMovies = localStorage.getItem('localMovies')
-          localMovies !== null && localMovies.length !== 0 && setNewMovies(JSON.parse(localMovies));
+          localMovies !== null && setNewMovies(JSON.parse(localMovies));
           mainApi.getMovies()
           .then(res => {
             setSavedMovies(res)
@@ -119,7 +119,7 @@ function App() {
   }
 
   useEffect(() => {
-      setNewMovies(movies.filter(movie => movie.nameRU.toLowerCase().includes(title.toLowerCase())));
+    (movies.length !== 0 && movies !== null && window.location.pathname === '/movies') && setNewMovies(movies.filter(movie => movie.nameRU.toLowerCase().includes(title.toLowerCase())));
   }, [title, movies]);
 
   useEffect(() => {
@@ -149,6 +149,8 @@ function App() {
       setMovies([]);
       setClearStates(false);
       setFilteredSavedMovies([]);
+      setTitle('');
+      setSavedTitle('');
     }
   }, [clearStates])
 
@@ -185,6 +187,7 @@ function App() {
               clearStates={clearStates}
               filteredSavedMovies={filteredSavedMovies}
               setFilteredSavedMovies={setFilteredSavedMovies}
+              movies={movies}
             />
           </Route>
           <Route path='/profile'>
@@ -199,10 +202,10 @@ function App() {
             />
           </Route>
           <Route path='/signin'>
-            <ProtectedAuthRoute component={Signin} loggedIn={loggedIn} redirectPath='/movies' setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser}/>
+            <ProtectedAuthRoute component={Signin} loggedIn={loggedIn} redirectPath='/movies' setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser} clearStates={clearStates}/>
           </Route>
           <Route path='/signup'>
-            <ProtectedAuthRoute component={Signup} loggedIn={loggedIn} redirectPath='/movies' setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser}/>
+            <ProtectedAuthRoute component={Signup} loggedIn={loggedIn} redirectPath='/movies' setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser} clearStates={clearStates}/>
           </Route>
           <Route path='*'>
             <NotFound />

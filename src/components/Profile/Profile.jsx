@@ -14,7 +14,6 @@ function Profile(props) {
   const [nameError, setNameError] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
   const [submitInfo, setSubmitInfo] = React.useState('');
-  const hist = useHistory();
 
   function checkName(e) {
     setNewName(e.target.value)

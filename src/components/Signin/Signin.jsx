@@ -3,9 +3,10 @@ import { Link, useHistory } from 'react-router-dom'
 import './Signin.css'
 import isEmail from 'validator/lib/isEmail';
 import { mainApi } from '../../utils/MainApi';
+import { useEffect } from 'react';
 
 function Signin(props) {
-  const {setLoggedIn, setCurrentUser} = props;
+  const {setLoggedIn, setCurrentUser, clearStates} = props;
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
@@ -50,6 +51,16 @@ function Signin(props) {
         return Promise.reject(err);
       })
   }
+  useEffect(() => {
+    if (clearStates === true) {
+      setEmail('');
+      setPassword('');
+      setEmailError(false);
+      setPasswordError(false);
+      setSubmitError('');
+    }
+  }, [clearStates])
+
   return(
     <section className='signin' aria-label='Авторизация'>
       <h3 className='signin__greeting'>Рады видеть!</h3>

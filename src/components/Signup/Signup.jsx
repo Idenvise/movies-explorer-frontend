@@ -6,7 +6,7 @@ import { mainApi } from '../../utils/MainApi';
 import { regExpName } from '../../utils/consts';
 
 function Signup(props) {
-  const {setLoggedIn, setCurrentUser} = props;
+  const {setLoggedIn, setCurrentUser, clearStates} = props;
   const [nameError, setNameError] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
@@ -48,6 +48,18 @@ function Signup(props) {
       setPassword('');
     }
   }
+
+  useEffect(() => {
+    if (clearStates === true) {
+      setNameError(false);
+      setEmailError(false);
+      setPasswordError(false);
+      setSubmitError('');
+      setName('');
+      setEmail('');
+      setPassword('');
+    }
+  }, [clearStates])
 
   function onSubmit(e) {
     e.preventDefault();
