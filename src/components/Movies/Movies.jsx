@@ -18,7 +18,8 @@ function Movies(props) {
     filteredSavedMovies,
     setFilteredSavedMovies,
     notFoundVisible,
-    movies
+    movies,
+    setTitle
   } = props;
   return(
     <section className='movies-page' aria-label='Старница фильмы'>
@@ -29,6 +30,7 @@ function Movies(props) {
         setShortMovieTrue={setShortMovieTrue}
         shortMovie={shortMovie}
         clearStates={clearStates}
+        setTitle={setTitle}
       />
       <MoviesCardList
         preloaderState={preloaderState}

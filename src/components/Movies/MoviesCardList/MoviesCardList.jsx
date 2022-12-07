@@ -26,9 +26,7 @@ function MoviesCardList(props) {
   }, [filteredSavedMovies, shortMovie])
 
   useEffect(() => {
-      console.log(newMovies)
     if (newMovies !== null && movies.length !== 0) {
-      console.log(newMovies)
       localStorage.setItem('localMovies', JSON.stringify(newMovies));
     }
     if (width>768) {

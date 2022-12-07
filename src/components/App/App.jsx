@@ -124,7 +124,13 @@ function App() {
 
   useEffect(() => {
     setFilteredSavedMovies(savedMovies.filter(movie => movie.nameRU.toLowerCase().includes(savedTitle.toLowerCase())));
-  }, [savedTitle, savedMovies])
+  }, [savedTitle, savedMovies]);
+
+  useEffect(() => {
+    if (window.location.pathname === '/saved-movies' && title === '') {
+      setFilteredSavedMovies(savedMovies)
+    }
+  }, [title])
 
   function logOut() {
     setClearStates(true);
@@ -188,6 +194,7 @@ function App() {
               filteredSavedMovies={filteredSavedMovies}
               setFilteredSavedMovies={setFilteredSavedMovies}
               movies={movies}
+              setTitle={setTitle}
             />
           </Route>
           <Route path='/profile'>

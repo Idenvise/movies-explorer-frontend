@@ -5,11 +5,10 @@ import React from 'react';
 import { useEffect } from 'react';
 
 function SearchForm(props) {
-  const {getMovies, preloader, setShortMovieTrue, setShortMovieFalse, shortMovie, clearStates} = props;
+  const {getMovies, preloader, setShortMovieTrue, setShortMovieFalse, shortMovie, clearStates, setTitle} = props;
   const [movieTitle, setMovieTitle] = React.useState('');
   const [error, setError] = React.useState(false);
-  const [movieTitleSaved, setMovieTitleSaved] = React.useState('');
-  const [shortMovieSaved, setShortMovieSaved] = React.useState(false);
+
 
   useEffect(() => {
     if (window.location.pathname === '/movies') {
@@ -22,18 +21,14 @@ function SearchForm(props) {
       }
     }
     if (window.location.pathname === '/saved-movies') {
-      setMovieTitle(movieTitleSaved);
-      if (shortMovieSaved) {
-        setShortMovieTrue()
-      } else {
-        setShortMovieFalse();
-      }
+      setMovieTitle('');
+      setTitle('');
+      setShortMovieFalse();
     }
   }, [window.location.pathname])
 
   function handleTitle(e) {
     setMovieTitle(e.target.value);
-    window.location.pathname === '/saved-movies' && setMovieTitleSaved(e.target.value);
     window.location.pathname === '/movies' && localStorage.setItem('searchRequset', e.target.value);
   };
 
@@ -58,17 +53,11 @@ function SearchForm(props) {
       if (window.location.pathname === '/movies') {
         localStorage.setItem('checkboxState', true);
       }
-      if (window.location.pathname === '/saved-movies') {
-        setShortMovieSaved(true);
-      }
       return;
     } else {
       setShortMovieFalse();
       if (window.location.pathname === '/movies') {
         localStorage.setItem('checkboxState', false);
-      }
-      if (window.location.pathname === '/saved-movies') {
-        setShortMovieSaved(false);
       }
     }
   }
@@ -91,8 +80,6 @@ function SearchForm(props) {
     if (clearStates === true) {
       setError(false);
       setMovieTitle('');
-      setMovieTitleSaved('');
-      setShortMovieSaved(false);
     }
   }, [clearStates])
 
