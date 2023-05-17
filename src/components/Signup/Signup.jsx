@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import './Signup.css'
 import isEmail from 'validator/lib/isEmail';
