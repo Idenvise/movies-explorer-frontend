@@ -3,48 +3,86 @@ import { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom'
 import MoviesCard from './MoviesCard/MoviesCard'
 import './MoviesCardList.css'
+import Preloader from '../Preloader/Preloader';
 
-function MoviesCardList() {
+function MoviesCardList(props) {
+  const imageURL = 'https://api.nomoreparties.co'
+  const {preloaderState, requestError, shortMovie, setSavedMovies, savedMovies, newMovies, clearStates, filteredSavedMovies, notFoundVisible, logOut, movies} = props;
   const [width, setWidth]   = React.useState(window.innerWidth);
+  const [showMovies, setShowMovies] = React.useState([]);
+  const [preparedMovies, setPreparedMovies] = React.useState([]);
+  const [showSavedMovie, setShowSavedMovie] = React.useState([]);
+
   useEffect(() => {
     setWidth(window.innerWidth);
-    console.log(width)
   }, [window.innerWidth]);
 
-const cards = [<MoviesCard key='1'/>,
-               <MoviesCard key='2'/>,
-               <MoviesCard key='3'/>,
-               <MoviesCard key='4'/>,
-               <MoviesCard key='5'/>,
-               <MoviesCard key='6'/>,
-               <MoviesCard key='7'/>,
-               <MoviesCard key='8'/>,
-               <MoviesCard key='9'/>,
-               <MoviesCard key='10'/>,
-               <MoviesCard key='11'/>,
-               <MoviesCard key='12'/>,]
+  useEffect(() => {
+    shortMovie ? setPreparedMovies(newMovies.filter(movie => movie.duration <= 40)) : setPreparedMovies(newMovies);
+  }, [newMovies, shortMovie]);
+
+  useEffect(() => {
+    shortMovie ? setShowSavedMovie(filteredSavedMovies.filter(movie => movie.duration <= 40)) : setShowSavedMovie(filteredSavedMovies);
+  }, [filteredSavedMovies, shortMovie])
+
+  useEffect(() => {
+      console.log(newMovies)
+    if (newMovies !== null && movies.length !== 0) {
+      console.log(newMovies)
+      localStorage.setItem('localMovies', JSON.stringify(newMovies));
+    }
+    if (width>768) {
+      setShowMovies(preparedMovies.slice(0,12).map(movie => {return movie}))
+      return
+    };
+    if (width<769 && width>481) {
+      setShowMovies(preparedMovies.slice(0,8).map(movie => {return movie}))
+      return
+    };
+    if (width<481) {
+      setShowMovies(preparedMovies.slice(0,5).map(movie => {return movie}))
+      return
+    };
+  }, [preparedMovies]);
+
+  function addCards() {
+    if (width>768) {
+      setShowMovies([...showMovies, ...preparedMovies.slice(showMovies.length, showMovies.length+3).map(movie => {return movie})]);
+      return;
+    }
+    if (width<769) {
+      setShowMovies([...showMovies, ...preparedMovies.slice(showMovies.length, showMovies.length+2).map(movie => {return movie})]);
+      return;
+    };
+  }
+
+  useEffect(() => {
+    if (clearStates === true) {
+      setShowMovies([]);
+      setSavedMovies([]);
+      setPreparedMovies([]);
+      setShowSavedMovie([]);
+    }
+  }, [clearStates])
   return(
     <section className='cards'>
-      <div className='card-list'>
+      <div className={`card-list ${(showMovies.length === 0 && window.location.pathname === '/movies') || (showSavedMovie.length === 0 && window.location.pathname === '/saved-movies') ? 'card-list_flex' : ''} ${preloaderState ? 'card-list_flex' : ''}`}>
         <Switch>
           <Route path='/movies'>
-            {(width > 769) ? cards.map((card) => {return card}) : ''}
-            {(width < 769 && width > 450) ? cards.slice(4).map((card) => {return card}) : ''}
-            {(width < 451) ? cards.slice(7).map((card) => {return card}) : ''}
+            {preloaderState ? <Preloader/> : ''}
+            {preloaderState === false ? <p className={`card-list__notfound ${showMovies.length === 0 && requestError === false && notFoundVisible === true ? 'card-list__notfound_visible' : ''}`}>Ничего не найдено</p> : ''}
+            {requestError ? <p className='card-list__error'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p> : ''}
+            {showMovies.map(movie => {return(<MoviesCard key={movie.id} id={movie.id} savedMovies={savedMovies} url={imageURL} setSavedMovies={setSavedMovies} movie={movie} title={movie.nameRU} preloaderState={preloaderState} logOut={logOut}/>)})}
           </Route>
           <Route path='/saved-movies'>
-            {(width > 320) ? cards.slice(9).map((card) => {return card}) : ''}
-            {(width < 321) ? cards.slice(10).map((card) => {return card}) : ''}
+            {preloaderState ? <Preloader/> : ''}
+            {preloaderState === false ? <p className={`card-list__notfound ${showSavedMovie.length === 0 && requestError === false ? 'card-list__notfound_visible' : ''}`}>Ничего не найдено</p> : ''}
+            {requestError ? <p className='card-list__error'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p> : ''}
+            {showSavedMovie.map(movie => {return(<MoviesCard key={movie.movieId} id={movie.movieId} url={imageURL} savedMovies={savedMovies} setSavedMovies={setSavedMovies} movie={movie} title={movie.nameRU} preloaderState={preloaderState} logOut={logOut}/>)})}
           </Route>
         </Switch>
-
       </div>
-      <Switch>
-        <Route path='/movies'>
-          <button className='card-list__more' type='button'>Ещё</button>
-        </Route>
-      </Switch>
-
+        <button className={`card-list__more ${window.location.pathname === '/movies' && preparedMovies.length > showMovies.length ? 'card-list__more_visible' : ''}`} type='button' onClick={addCards}>Ещё</button>
     </section>
   )
 }

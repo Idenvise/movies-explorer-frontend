@@ -1,0 +1,1 @@
+export const regExpName = new RegExp('[^А-Яа-яA-Za-z- ]');
