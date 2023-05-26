@@ -1,9 +1,13 @@
 # movies-explorer-frontend
 
-https://www.figma.com/file/kieqHLGaS3LjzLD2qngzWI/Diploma-(Copy)?t=xQ2OfHbjoujQCdDQ-6
-https://disk.yandex.ru/d/fUCYZXKbVGqfZg
+Функциональность: поиск и сохранение фильмов в избранное, редактирование и валидация форм, создание базы данных фильмов и пользователей, система авторизации пользователей.
 
-https://github.com/Idenvise/movies-explorer-frontend/pull/2
-http://movies.nomoredomains.icu/
+Стек: HTML5, CSS3, JavaScript, React.
+
+Статус проекта: завершен.
+
+Сайт проекта: http://movies.nomoredomains.icu/.
+
+
 
 
